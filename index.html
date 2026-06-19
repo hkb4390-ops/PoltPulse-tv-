@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLOTPULSE CINEMA V8.6 | PROFESSIONAL TELEVISION MATRIX ENGINE</title>
+    <!-- Firebase Legacy Core Components -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@700;900&family=Noto+Sans+Devanagari:wght@700;900&display=swap');
+        
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            margin: 0;
+            padding: 0;
+            outline: none !important;
+        }
+
+        body {
+            background-color: #040406;
+            font-family: 'Inter', 'Noto Sans Devanagari', sans-serif;
+            color: #ffffff;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Ambient Dynamic Background Layer */
+        #tv-global-ambient-dynamic-background {
+            position: fixed;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            transition: background-image 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1;
+            filter: blur(40px) brightness(0.2);
+            transform: scale(1.1);
+            pointer-events: none;
+        }
+
+        /* PERMANENT FIXED APP HEADER */
+        .app-header-fixed-tv-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to bottom, #040406 60%, rgba(4,4,6,0) 100%);
+            display: flex;
+            align-items: center;
+            padding: 0 45px;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .animated-pulse-logo-text {
+            font-size: 38px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            color: #FFD700;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+        }
+
+        /* MAIN APP VIEWPORT CONTAINER */
+        .tv-scrollable-content-viewport-stage {
+            position: absolute;
+            top: 110px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            overflow-y: hidden;
+            padding: 0 45px 45px 45px;
+            z-index: 10;
+        }
+
+        /* MULTI-ROW SYNCED GRID LAYOUT */
+        .tv-grid-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            padding: 6px 6px 20px 6px;
+        }
+
+        /* FIX: UNIFORM STANDARDIZED MAIN SHOW CARDS */
+        .tv-card-node-item {
+            background: rgba(22, 22, 33, 0.65);
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 14px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            height: 210px; 
+            transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        /* GLASS SPECIFIC COMPACT EPISODE CARDS (TIGHT WRAPPING ENVELOPE DESIGN) */
+        .glass-episode-card-node {
+            background: rgba(255, 255, 255, 0.06) !important;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 255, 255, 0.12) !important;
+            border-radius: 12px;
+            padding: 12px;
+            height: auto !important; 
+            max-height: max-content !important;
+            display: block !important;
+        }
+
+        /* PREMIUM DYNAMIC HIGHLIGHT SELECTION FOCUS DRIVER */
+        .tv-card-node-item:focus, .tv-focusable-action-node:focus {
+            border: 3px solid #FFD700 !important;
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.45) !important;
+        }
+
+        /* FOCUS RULE SPECIFICALLY DETACHED FROM BACKGROUND DEGRADATION EXCLUSIONS */
+        .main-catalog-show-item-card:focus, .glass-episode-card-node:focus {
+            background: rgba(35, 35, 55, 0.95) !important;
+        }
+
+        .image-container-frame {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #000000;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 10px;
+            flex-shrink: 0;
+        }
+
+        .image-container-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* FIX: RESILIENT HERO BANNER BACKGROUND PERSISTENCE DESIGN PACK */
+        .static-tv-billboard {
+            width: 100%;
+            height: 280px;
+            background-color: #0d0d14;
+            background-size: cover;
+            background-position: center;
+            border: 2px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            padding: 35px;
+        }
+
+        /* FIX: BACKGROUND PERSISTENCE INTERACTION MASK PROTECTION LAYER */
+        .static-tv-billboard:focus {
+            background-color: transparent !important; 
+        }
+
+        /* SLICK MODAL SCREEN BLANKET SCREEN LAYER */
+        .tv-fullscreen-modal-blanket {
+            position: fixed;
+            inset: 0;
+            background: rgba(4, 4, 8, 0.5);
+            backdrop-filter: blur(35px) brightness(0.5);
+            -webkit-backdrop-filter: blur(35px) brightness(0.5);
+            z-index: 9999;
+            display: none;
+            flex-direction: column;
+            padding: 45px;
+        }
+
+        /* FULL EXPERIENCE VIDEO PLAYER ARCHITECTURE */
+        #hardware-media-player-container-viewport {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: #000000;
+            z-index: 999999;
+        }
+
+        /* FIX: ALIGNED WATERMARK MATRIX (PROFESSIONAL CALIBRATED LOWER POSITION SHIFT) */
+        .player-permanent-brand-watermark {
+            position: absolute;
+            top: 75px; /* Lower alignment execution match real television viewport standard rules */
+            right: 55px;
+            z-index: 1000002;
+            pointer-events: none;
+        }
+        
+        .player-permanent-brand-watermark img {
+            width: 125px; /* Optimized professional minor down scaling ratio footprint */
+            height: auto;
+            filter: drop-shadow(0px 4px 12px rgba(0,0,0,0.6)) drop-shadow(0px 0px 6px rgba(255,215,0,0.3));
+        }
+
+        /* UNIFIED NATIVE CENTRIC RESPONSIVE PLAYER LOADER FRAMEWORK */
+        .player-video-loading-screen-container {
+            position: absolute;
+            inset: 0;
+            background: #000000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000004;
+            gap: 20px;
+        }
+
+        .native-circular-spinner-ring {
+            width: 70px;
+            height: 70px;
+            border: 6px solid rgba(255, 215, 0, 0.1);
+            border-top: 6px solid #FFD700;
+            border-radius: 50%;
+            animation: spinEngineRotationLoop 1s linear infinite;
+        }
+
+        @keyframes spinEngineRotationLoop {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .player-control-hud-layer {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.8) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 45px;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 1000001;
+            transition: opacity 0.35s ease;
+        }
+
+        .player-hud-visible {
+            opacity: 1 !important;
+            pointer-events: auto !important;
+        }
+
+        .player-back-trigger-hud-btn {
+            background: rgba(255,255,255,0.08);
+            border: 2px solid rgba(255,255,255,0.15);
+            color: #ffffff;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-weight: 900;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        #player-toast-notification-alert {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.95);
+            border: 2px solid #FFD700;
+            padding: 18px 36px;
+            border-radius: 12px;
+            font-size: 24px;
+            font-weight: 900;
+            z-index: 1000005;
+            display: none;
+        }
+
+        .history-scroller-rail-wrapper {
+            display: flex;
+            overflow-x: hidden;
+            white-space: nowrap;
+            gap: 20px;
+            padding: 6px;
+        }
+
+        .progress-rail-bar-track-wrapper {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 5px;
+            background: #ff2a2a;
+        }
+
+        .section-title-label-node {
+            font-size: 19px;
+            font-weight: 900;
+            color: #e0e0ea;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .dot-indicator-mark { width: 6px; height: 18px; background: #FFD700; border-radius: 2px; }
+    </style>
+</head>
+<body>
+
+    <div id="tv-global-ambient-dynamic-background"></div>
+
+    <div class="app-header-fixed-tv-banner" id="main-fixed-app-header-bar">
+        <div style="display:flex; align-items:center; gap:16px;">
+            <img src="https://i.postimg.cc/0jYXzP2D/65fe84fd-ebee-4451-a65b-387e01e20499.png" style="width:52px; height:52px; border-radius:10px;">
+            <div>
+                <h1 class="animated-pulse-logo-text">PLOTPULSE</h1>
+                <p style="font-size:9px; font-weight:700; color:#8888a0; letter-spacing:2px; margin-top:2px;">ANTI-CRASH SMART-TV ENGINE</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN INTERACTIVE HUB VIEWPORT -->
+    <div id="tv-main-platform-scrollable-viewport-frame" class="tv-scrollable-content-viewport-stage">
+        
+        <!-- Billboard Spot System Node -->
+        <div id="tv-static-billboard-hero-card" class="static-tv-billboard tv-focusable-action-node" tabindex="0">
+            <div style="position:relative; z-index:10; max-width:700px;">
+                <h2 id="hero-billboard-dynamic-title" style="font-size:36px; font-weight:900; text-transform:uppercase; margin-bottom:12px;">LOADING CATALOG ENGINE...</h2>
+                <span style="display:inline-block; padding:10px 24px; background:#ffffff; color:#000000; font-weight:900; border-radius:6px; font-size:15px;">अभी देखें (OK)</span>
+            </div>
+        </div>
+
+        <!-- Track Container Layer -->
+        <div id="tv-playback-history-shelf-block" style="display:none; margin-bottom:32px;">
+            <div class="section-title-label-node"><div class="dot-indicator-mark" style="background:#ff2a2a;"></div>देखना जारी रखें (RESUME)</div>
+            <div id="history-scroller-rail-track-container" class="history-scroller-rail-wrapper"></div>
+        </div>
+
+        <!-- Catalog Section Mesh Elements -->
+        <div class="section-title-label-node"><div class="dot-indicator-mark"></div>सभी शोज़ (ALL CHANNELS CATALOG)</div>
+        <div id="tv-master-catalog-grid-mesh" class="tv-grid-container"></div>
+
+    </div>
+
+    <!-- EPISODES STRUCTURAL GLASS MODAL CANVAS VIEW -->
+    <div id="tv-episodes-fullscreen-modal-view-blanket" class="tv-fullscreen-modal-blanket">
+        <div style="display:flex; align-items:center; gap:24px; margin-bottom:35px; width:100%;">
+            <button class="tv-focusable-action-node player-back-trigger-hud-btn" id="modal-back-button" tabindex="0" onclick="dismissEpisodesModalWindowBlanketLayer()">← वापस जाएँ</button>
+            <h2 id="modal-show-title-shimmer-headline-header" style="font-size:30px; font-weight:900; color:#FFD700; text-transform:uppercase;">EPISODES CATALOG</h2>
+        </div>
+        
+        <div id="modal-episodes-mesh-rendering-canvas-container" class="tv-grid-container" style="height: calc(100% - 120px); overflow-y: hidden;">
+            <!-- Dynamic Cards Hook -->
+        </div>
+    </div>
+
+    <div id="player-toast-notification-alert">PAUSE</div>
+
+    <!-- PIPELINE HARDWARE VIDEO CONTROLLER SCREEN -->
+    <div id="hardware-media-player-container-viewport" tabindex="0">
+        <!-- Native Centered UI Buffer Display Loader Frame -->
+        <div id="player-video-loading-screen-engine" class="player-video-loading-screen-container">
+            <div class="native-circular-spinner-ring"></div>
+            <h3 style="color:#FFD700; font-weight:900; letter-spacing:1px; font-size:18px;">BUFFERS CONNECTING...</h3>
+        </div>
+
+        <video id="vid" style="width:100%; height:100%; background:#000000;" playsinline></video>
+        
+        <!-- FIX: RE-CALIBRATED LOWER RATIO WATERMARK HOOK FRAME -->
+        <div class="player-permanent-brand-watermark" id="player-permanent-brand-logo-layer">
+            <img src="https://i.postimg.cc/yd1s4hdw/c73c0d3d-0c8f-4f55-ba34-017747e2a68d.png">
+        </div>
+        
+        <div class="player-control-hud-layer" id="player-hud-overlay-panel">
+            <div style="display:flex; justify-content:flex-start; align-items:center; width:100%;">
+                <button id="player-hud-closer-action-node-trigger" class="player-back-trigger-hud-btn tv-focusable-action-node" tabindex="0" onclick="terminateActiveStreamingEnginePipelineDecoder()">← बंद करें (EXIT)</button>
+            </div>
+            
+            <div style="width:100%; background:rgba(6, 6, 10, 0.96); border: 2px solid rgba(255,255,255,0.08); padding:24px; border-radius:12px; display:flex; flex-direction:column; gap:10px;">
+                <h2 id="hud-playing-title-node" style="font-size:24px; font-weight:900; color:#FFD700;">STREAM LINE</h2>
+                <p id="hud-playing-details-node" style="font-size:15px; font-weight:700; color:#e0e0e0;">LOADING SEGMENT TRACK...</p>
+                
+                <div style="display:flex; align-items:center; gap:16px; margin-top:4px;">
+                    <span id="player-current-time-stamp" style="font-size:13px; font-weight:900;">00:00</span>
+                    <div style="flex-grow:1; height:6px; background:rgba(255,255,255,0.15); border-radius:3px; position:relative; overflow:hidden;">
+                        <div id="player-hud-timeline-progress-bar" style="width:0%; height:100%; background:#ff2a2a;"></div>
+                    </div>
+                    <span id="player-total-duration-stamp" style="font-size:13px; font-weight:900;">00:00</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const cloudDatabaseProfileSystemRoutingConfig = { databaseURL: "https://hry-study-default-rtdb.firebaseio.com/" };
+        let isCloudDatabaseInitializedCorrectly = false;
+
+        try {
+            firebase.initializeApp(cloudDatabaseProfileSystemRoutingConfig);
+            isCloudDatabaseInitializedCorrectly = true;
+        } catch (e) { console.error("Firebase database bypassed."); }
+
+        const databasePointersInstanceReferenceRoute = isCloudDatabaseInitializedCorrectly ? firebase.database() : null;
+
+        let memoryCachedShowsCatalogArrayPayload = [];
+        let globalScopeActiveNavigationWindowRoute = 'grid'; 
+        
+        let flatUIFocusableElementsPoolArray = [];
+        let globalActiveFocusPoolPointerIndexRegister = 0;
+
+        let persistentSelectedShowIdentificationStringKeyId = '';
+        let persistentSelectedShowIdentificationStringNameTitle = '';
+        let rotatingBillboardCarouselIndexPointerOffsetValue = 0;
+        let autoRotationBillboardTimerPipelineRefInstance = null;
+        let hudVisibilityTimeoutRefInstance = null;
+
+        const lowOverheadHardwareOptimalFallbackMatrix = [
+            { key: "show_01", name: "तारक मेहता का उल्टा चश्मा", thumb: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=600", episodes: { ep_1: { num: "4640", title: "जेठालाल की परेशानी", video: "https://www.w3schools.com/html/mov_bbb.mp4", date: "2026-06-19" } } }
+        ];
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initializeTvApplicationPipelineCore();
+        });
+
+        function initializeTvApplicationPipelineCore() {
+            if (isCloudDatabaseInitializedCorrectly && databasePointersInstanceReferenceRoute) {
+                databasePointersInstanceReferenceRoute.ref('shows').on('value', (snapshot) => {
+                    if (!snapshot.exists()) { hydrateFallbackMatrix(); return; }
+                    memoryCachedShowsCatalogArrayPayload = [];
+                    snapshot.forEach((child) => {
+                        if (child.key && child.val()) {
+                            memoryCachedShowsCatalogArrayPayload.push({
+                                key: child.key,
+                                name: child.val().name,
+                                thumb: child.val().thumb || "https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=600",
+                                episodes: child.val().episodes
+                            });
+                        }
+                    });
+                    buildMainCatalogUIRender();
+                }, (err) => { hydrateFallbackMatrix(); });
+            } else { hydrateFallbackMatrix(); }
+        }
+
+        function hydrateFallbackMatrix() {
+            memoryCachedShowsCatalogArrayPayload = [...lowOverheadHardwareOptimalFallbackMatrix];
+            buildMainCatalogUIRender();
+        }
+
+        function buildMainCatalogUIRender() {
+            renderCatalogGrid(memoryCachedShowsCatalogArrayPayload);
+            renderHistoryShelf();
+            initializeBillboardCarouselPipeline();
+            rebuildUINavigationFocusPoolRegistryMap(false); 
+        }
+
+        function renderCatalogGrid(dataCollection) {
+            const gridContainer = document.getElementById('tv-master-catalog-grid-mesh');
+            gridContainer.innerHTML = ""; 
+
+            dataCollection.forEach((show) => {
+                const card = document.createElement('div');
+                card.className = "tv-card-node-item tv-focusable-action-node main-catalog-show-item-card";
+                card.tabIndex = 0;
+                card.setAttribute('data-target-show-key', show.key);
+
+                card.innerHTML = `
+                    <div class="image-container-frame">
+                        <img src="${show.thumb}" loading="lazy">
+                    </div>
+                    <h3 style="font-size:14px; font-weight:700; line-height:1.3; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; text-transform:uppercase;">${show.name}</h3>
+                `;
+
+                card.addEventListener('focus', () => {
+                    if(show.thumb) {
+                        document.getElementById('tv-global-ambient-dynamic-background').style.backgroundImage = `url('${show.thumb}')`;
+                    }
+                    ensureFocusedElementVisibleInViewport(card);
+                });
+
+                card.onclick = () => { exposeEpisodesModal(show.key, show.name); };
+                gridContainer.appendChild(card);
+            });
+        }
+
+        function initializeBillboardCarouselPipeline() {
+            if (autoRotationBillboardTimerPipelineRefInstance) clearInterval(autoRotationBillboardTimerPipelineRefInstance);
+            if (memoryCachedShowsCatalogArrayPayload.length === 0) return;
+
+            const rotateRoutine = (idx) => {
+                const targetShow = memoryCachedShowsCatalogArrayPayload[idx];
+                if (!targetShow) return;
+
+                const secureThumbUrl = targetShow.thumb || "https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=600";
+                
+                const heroCardElement = document.getElementById('tv-static-billboard-hero-card');
+                
+                // FIX: Replaced complete linear injection stack with standard inline protection styles against reset on focuses
+                heroCardElement.style.backgroundImage = `linear-gradient(rgba(0,0,0,0) 10%, #040406 100%), url('${secureThumbUrl}')`;
+                document.getElementById('hero-billboard-dynamic-title').innerText = targetShow.name;
+
+                heroCardElement.onclick = () => {
+                    exposeEpisodesModal(targetShow.key, targetShow.name);
+                };
+            };
+
+            rotateRoutine(rotatingBillboardCarouselIndexPointerOffsetValue);
+            autoRotationBillboardTimerPipelineRefInstance = setInterval(() => {
+                if (globalScopeActiveNavigationWindowRoute === 'grid') {
+                    rotatingBillboardCarouselIndexPointerOffsetValue = (rotatingBillboardCarouselIndexPointerOffsetValue + 1) % memoryCachedShowsCatalogArrayPayload.length;
+                    rotateRoutine(rotatingBillboardCarouselIndexPointerOffsetValue);
+                }
+            }, 7000); 
+        }
+
+        function renderHistoryShelf() {
+            const trackContainer = document.getElementById('history-scroller-rail-track-container');
+            const shelfBlock = document.getElementById('tv-playback-history-shelf-block');
+            const localHistory = JSON.parse(localStorage.getItem('ott_tracking_history_v5')) || {};
+
+            trackContainer.innerHTML = "";
+            let keys = Object.keys(localHistory);
+
+            if (keys.length === 0) { shelfBlock.style.display = 'none'; return; }
+            shelfBlock.style.display = 'block';
+            keys.sort((a, b) => localHistory[b].timestamp - localHistory[a].timestamp);
+
+            keys.forEach((historyKey) => {
+                const record = localHistory[historyKey];
+                const progressFillWidth = (record.position / record.duration) * 100;
+
+                const card = document.createElement('div');
+                card.className = "tv-card-node-item tv-focusable-action-node history-tracking-item-card";
+                card.style.minWidth = "220px";
+                card.style.maxWidth = "220px";
+                card.style.height = "175px"; 
+                card.style.display = "inline-block";
+                card.tabIndex = 0;
+
+                card.innerHTML = `
+                    <div class="image-container-frame" style="margin-bottom:6px; aspect-ratio:16/10;">
+                        <img src="${record.thumb}">
+                        <div class="progress-rail-bar-track-wrapper" style="width: ${progressFillWidth}%"></div>
+                    </div>
+                    <h4 style="font-size:12px; font-weight:700; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${record.showName}</h4>
+                    <p style="font-size:11px; color:#FFD700; font-weight:700; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin-top:1px;">EP ${record.epNum} - ${record.epTitle}</p>
+                `;
+
+                card.addEventListener('focus', () => {
+                    document.getElementById('tv-global-ambient-dynamic-background').style.backgroundImage = `url('${record.thumb}')`;
+                    ensureFocusedElementVisibleInViewport(card);
+                });
+
+                card.onclick = () => {
+                    initiatePlaybackDecoder(record.videoUrl, historyKey, record.thumb, record.showName, record.epNum, record.epTitle);
+                };
+                trackContainer.appendChild(card);
+            });
+        }
+
+        // FIX: COMPREHENSIVE REGISTRY NORMALIZATION OVERRIDES FOR TWO WINDOW SEGMENTS
+        function rebuildUINavigationFocusPoolRegistryMap(forceResetToLeft = false) {
+            if (globalScopeActiveNavigationWindowRoute === 'grid') {
+                const hero = document.getElementById('tv-static-billboard-hero-card');
+                const historyItems = Array.from(document.querySelectorAll('#history-scroller-rail-track-container .history-tracking-item-card'));
+                const catalogItems = Array.from(document.querySelectorAll('#tv-master-catalog-grid-mesh .main-catalog-show-item-card'));
+                
+                flatUIFocusableElementsPoolArray = [hero];
+                if (historyItems.length > 0) {
+                    flatUIFocusableElementsPoolArray = flatUIFocusableElementsPoolArray.concat(historyItems);
+                }
+                flatUIFocusableElementsPoolArray = flatUIFocusableElementsPoolArray.concat(catalogItems);
+            } else if (globalScopeActiveNavigationWindowRoute === 'modal') {
+                const modalBackBtn = document.getElementById('modal-back-button');
+                // FIX: Sequential linear node mapping configuration inside modal layer arrays
+                const epCards = Array.from(document.querySelectorAll('#modal-episodes-mesh-rendering-canvas-container .glass-episode-card-node'));
+                
+                flatUIFocusableElementsPoolArray = [modalBackBtn].concat(epCards);
+            }
+            
+            if (forceResetToLeft || globalActiveFocusPoolPointerIndexRegister >= flatUIFocusableElementsPoolArray.length) {
+                globalActiveFocusPoolPointerIndexRegister = 0;
+            }
+
+            if (flatUIFocusableElementsPoolArray[globalActiveFocusPoolPointerIndexRegister]) {
+                flatUIFocusableElementsPoolArray[globalActiveFocusPoolPointerIndexRegister].focus();
+            }
+        }
+
+        function ensureFocusedElementVisibleInViewport(elementNode) {
+            if (globalScopeActiveNavigationWindowRoute !== 'grid') return;
+            const containerStage = document.getElementById('tv-main-platform-scrollable-viewport-frame');
+            const elementBounds = elementNode.getBoundingClientRect();
+            const containerBounds = containerStage.getBoundingClientRect();
+
+            if (elementBounds.top < containerBounds.top + 20) {
+                containerStage.scrollTop += (elementBounds.top - containerBounds.top - 20);
+            } else if (elementBounds.bottom > containerBounds.bottom - 20) {
+                containerStage.scrollTop += (elementBounds.bottom - containerBounds.bottom + 20);
+            }
+        }
+
+        function exposeEpisodesModal(showKey, showTitle) {
+            persistentSelectedShowIdentificationStringKeyId = showKey;
+            persistentSelectedShowIdentificationStringNameTitle = showTitle;
+            globalScopeActiveNavigationWindowRoute = 'modal';
+
+            document.getElementById('modal-show-title-shimmer-headline-header').innerText = showTitle;
+            const subGrid = document.getElementById('modal-episodes-mesh-rendering-canvas-container');
+            subGrid.innerHTML = ""; 
+
+            const targetShow = memoryCachedShowsCatalogArrayPayload.find(s => s.key === showKey);
+            if (targetShow) {
+                document.getElementById('tv-global-ambient-dynamic-background').style.backgroundImage = `url('${targetShow.thumb}')`;
+
+                if (targetShow.episodes) {
+                    let epList = [];
+                    Object.keys(targetShow.episodes).forEach(k => { if(targetShow.episodes[k]) epList.push(targetShow.episodes[k]); });
+                    epList.sort((a, b) => (parseInt(b.num) || 0) - (parseInt(a.num) || 0));
+
+                    epList.forEach((ep) => {
+                        const epNumStr = ep.num || "1";
+                        const calcTrackCode = showKey + "_" + epNumStr;
+                        const registry = JSON.parse(localStorage.getItem('ott_tracking_history_v5')) || {};
+                        let progressPct = 0;
+                        if (registry[calcTrackCode]) progressPct = (registry[calcTrackCode].position / registry[calcTrackCode].duration) * 100;
+
+                        const epCard = document.createElement('div');
+                        epCard.className = "tv-card-node-item tv-focusable-action-node glass-episode-card-node";
+                        epCard.tabIndex = 0;
+
+                        epCard.innerHTML = `
+                            <div class="image-container-frame" style="margin-bottom:8px;">
+                                <img src="${targetShow.thumb}">
+                                <div class="progress-rail-bar-track-wrapper" style="width: ${progressPct}%"></div>
+                            </div>
+                            <h4 style="font-size:13px; font-weight:700; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin-bottom:4px;">${ep.title || 'Untitled Episode'}</h4>
+                            <div style="display:flex; align-items:center; justify-content:space-between; font-size:11px; font-weight:700;">
+                                <span style="background:#FFD700; color:#000000; padding:1px 6px; border-radius:3px; font-size:10px;">EPISODE ${epNumStr}</span>
+                                <span style="color:#a0a0c0; font-size:11px;">${ep.date || 'HD'}</span>
+                            </div>
+                        `;
+
+                        epCard.onclick = () => {
+                            initiatePlaybackDecoder(ep.video, calcTrackCode, targetShow.thumb, showTitle, epNumStr, ep.title);
+                        };
+                        subGrid.appendChild(epCard);
+                    });
+                }
+            }
+
+            document.getElementById('tv-episodes-fullscreen-modal-view-blanket').style.display = 'flex';
+            rebuildUINavigationFocusPoolRegistryMap(true); 
+        }
+
+        function dismissEpisodesModalWindowBlanketLayer() {
+            document.getElementById('modal-episodes-mesh-rendering-canvas-container').innerHTML = "";
+            document.getElementById('tv-episodes-fullscreen-modal-view-blanket').style.display = 'none';
+            globalScopeActiveNavigationWindowRoute = 'grid';
+            buildMainCatalogUIRender();
+        }
+
+        function formatSecondsToClock(secs) {
+            if (isNaN(secs)) return "00:00";
+            const mins = Math.floor(secs / 60);
+            const remainingSecs = Math.floor(secs % 60);
+            return `${mins.toString().padStart(2, '0')}:${remainingSecs.toString().padStart(2, '0')}`;
+        }
+
+        function flashToast(txt) {
+            const toast = document.getElementById('player-toast-notification-alert');
+            toast.innerText = txt;
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 1200);
+        }
+
+        function flashPlayerHudVisibility() {
+            const hud = document.getElementById('player-hud-overlay-panel');
+            hud.classList.add('player-hud-visible');
+            if (hudVisibilityTimeoutRefInstance) clearTimeout(hudVisibilityTimeoutRefInstance);
+            hudVisibilityTimeoutRefInstance = setTimeout(() => {
+                hud.classList.remove('player-hud-visible');
+            }, 4000); 
+        }
+
+        // FIX: REDIRECTION FORCE LINE TIMELINE COMPILER FUNCTION
+        function recompileProgressVisualTrackBar(currentTime, duration) {
+            if (duration > 0) {
+                const targetPercentageWidthValue = (currentTime / duration) * 100;
+                document.getElementById('player-current-time-stamp').innerText = formatSecondsToClock(currentTime);
+                document.getElementById('player-hud-timeline-progress-bar').style.width = `${targetPercentageWidthValue}%`;
+            }
+        }
+
+        function initiatePlaybackDecoder(videoUrl, trackId, thumbUrl, showName, epNum, epTitle) {
+            globalScopeActiveNavigationWindowRoute = 'player';
+            const vid = document.getElementById('vid');
+            const loaderScreen = document.getElementById('player-video-loading-screen-engine');
+
+            document.getElementById('hud-playing-title-node').innerText = showName;
+            document.getElementById('hud-playing-details-node').innerText = `एपिसोड ${epNum} - ${epTitle}`;
+            
+            loaderScreen.style.display = 'flex';
+
+            const proxyPath = !videoUrl.startsWith('http')
+                ? `https://telegram-video-proxy.vercel.app/stream?file_id=${videoUrl}`
+                : videoUrl;
+
+            vid.src = proxyPath;
+            document.getElementById('hardware-media-player-container-viewport').style.display = 'block';
+            document.getElementById('hardware-media-player-container-viewport').focus();
+
+            const registry = JSON.parse(localStorage.getItem('ott_tracking_history_v5')) || {};
+            
+            // FIX: ASYNCHRONOUS SECURITY LOCK ON READYSTATES TO ABORT MIDWAY BLACK/WHITE SCREEN
+            vid.onplaying = () => {
+                loaderScreen.style.display = 'none';
+                vid.onplaying = null;
+            };
+
+            vid.oncanplay = () => {
+                if (registry[trackId]) {
+                    vid.currentTime = registry[trackId].position;
+                    recompileProgressVisualTrackBar(vid.currentTime, vid.duration);
+                }
+                vid.play().catch(()=>{});
+                flashPlayerHudVisibility();
+                vid.oncanplay = null;
+            };
+
+            vid.ontimeupdate = () => {
+                if (vid.duration > 0) {
+                    recompileProgressVisualTrackBar(vid.currentTime, vid.duration);
+                    document.getElementById('player-total-duration-stamp').innerText = formatSecondsToClock(vid.duration);
+
+                    const localStore = JSON.parse(localStorage.getItem('ott_tracking_history_v5')) || {};
+                    localStore[trackId] = {
+                        position: vid.currentTime,
+                        duration: vid.duration,
+                        videoUrl: videoUrl,
+                        thumb: thumbUrl,
+                        showName: showName,
+                        epNum: epNum,
+                        epTitle: epTitle,
+                        timestamp: Date.now()
+                    };
+                    localStorage.setItem('ott_tracking_history_v5', JSON.stringify(localStore));
+                }
+            };
+        }
+
+        function togglePlayback() {
+            const vid = document.getElementById('vid');
+            if (vid.paused) { vid.play(); flashToast("PLAY ▶"); } 
+            else { vid.pause(); flashToast("PAUSE ⏸"); }
+            flashPlayerHudVisibility();
+        }
+
+        // FIX: ENHANCED INSTANT REFLECT ENGINE WITH STABLE SUB-STATION REDRAW CALLS
+        function executeSeek(delta) {
+            const vid = document.getElementById('vid');
+            let target = vid.currentTime + delta;
+            if (target < 0) target = 0;
+            if (target > vid.duration) target = vid.duration;
+            
+            vid.currentTime = target;
+            // Immediate layout structural correction mapping execution
+            recompileProgressVisualTrackBar(target, vid.duration);
+            
+            flashToast(delta > 0 ? `⏩ +${delta}s` : `⏪ ${delta}s`);
+            flashPlayerHudVisibility();
+        }
+
+        function terminateActiveStreamingEnginePipelineDecoder() {
+            const vid = document.getElementById('vid');
+            vid.pause();
+            vid.removeAttribute('src'); 
+            vid.load(); 
+            document.getElementById('hardware-media-player-container-viewport').style.display = 'none';
+
+            if (persistentSelectedShowIdentificationStringKeyId) {
+                globalScopeActiveNavigationWindowRoute = 'modal';
+                exposeEpisodesModal(persistentSelectedShowIdentificationStringKeyId, persistentSelectedShowIdentificationStringNameTitle);
+            } else {
+                globalScopeActiveNavigationWindowRoute = 'grid';
+                buildMainCatalogUIRender();
+            }
+        }
+
+        // DYNAMIC NAVIGATIONAL DISPATCH MAP
+        window.onkeydown = (e) => {
+            const code = e.keyCode;
+            const TV_REMOTE_LEFT = 37;
+            const TV_REMOTE_UP = 38;
+            const TV_REMOTE_RIGHT = 39;
+            const TV_REMOTE_DOWN = 40;
+            const TV_REMOTE_OK = 13;
+            const BACK_KEYS = [8, 27, 461, 10009];
+
+            if (globalScopeActiveNavigationWindowRoute === 'player') {
+                flashPlayerHudVisibility();
+                if (document.activeElement.id === 'player-hud-closer-action-node-trigger' && code === TV_REMOTE_OK) {
+                    e.preventDefault();
+                    terminateActiveStreamingEnginePipelineDecoder();
+                    return;
+                }
+                if (code === TV_REMOTE_RIGHT) { e.preventDefault(); executeSeek(10); } 
+                else if (code === TV_REMOTE_LEFT) { e.preventDefault(); executeSeek(-10); } 
+                else if (code === TV_REMOTE_OK) { e.preventDefault(); togglePlayback(); }
+                else if (code === TV_REMOTE_UP) { e.preventDefault(); document.getElementById('player-hud-closer-action-node-trigger').focus(); }
+                else if (code === TV_REMOTE_DOWN) { e.preventDefault(); document.getElementById('hardware-media-player-container-viewport').focus(); }
+                else if (BACK_KEYS.includes(code)) { e.preventDefault(); terminateActiveStreamingEnginePipelineDecoder(); }
+                return;
+            }
+
+            if (code === TV_REMOTE_RIGHT) {
+                e.preventDefault();
+                if (globalActiveFocusPoolPointerIndexRegister < flatUIFocusableElementsPoolArray.length - 1) {
+                    globalActiveFocusPoolPointerIndexRegister++;
+                    flatUIFocusableElementsPoolArray[globalActiveFocusPoolPointerIndexRegister].focus();
+                }
+            } 
+            else if (code === TV_REMOTE_LEFT) {
+                e.preventDefault();
+                if (globalActiveFocusPoolPointerIndexRegister > 0) {
+                    globalActiveFocusPoolPointerIndexRegister--;
+                    flatUIFocusableElementsPoolArray[globalActiveFocusPoolPointerIndexRegister].focus();
+                }
+            } 
+            else if (code === TV_REMOTE_DOWN) {
+                e.preventDefault();
+                let currentElem = flatUIFocusableElementsPoolArray[globalActiveFocusPoolPointerIndexRegister];
+                
+                if (currentElem && currentElem.id === 'tv-static-billboard-hero-card') {
+                    globalActiveFocusPoolPointerIndexRegister = 1;
+                } else {
+                    globalActiveFocusPoolPointerIndexRegister = Math.min(globalActiveFocusPoolPointerIndexRegister + 4, flatUIFocusableElementsPoolArray.length - 1);
+                }
+                
+                if(flatUIFocusableElementsPoolArray[globalActiveFocusPoolPointerIndexRegister]) {
+                    flatUIFocusableElementsPoolArray[globalActiveFocusPoolPointerIndexRegister].focus();
+                }
+            } 
+            else if (code === TV_REMOTE_UP) {
+                e.preventDefault();
+                if (globalActiveFocusPoolPointerIndexRegister > 0) {
+                    let targetIndex = globalActiveFocusPoolPointerIndexRegister - 4;
+                    if (targetIndex <= 0) {
+                        globalActiveFocusPoolPointerIndexRegister = 0; 
+                    } else {
+                        globalActiveFocusPoolPointerIndexRegister = targetIndex;
+                    }
+                    if(flatUIFocusableElementsPoolArray[globalActiveFocusPoolPointerIndexRegister]) {
+                        flatUIFocusableElementsPoolArray[globalActiveFocusPoolPointerIndexRegister].focus();
+                    }
+                }
+            } 
+            else if (code === TV_REMOTE_OK) {
+                e.preventDefault();
+                if (flatUIFocusableElementsPoolArray[globalActiveFocusPoolPointerIndexRegister]) {
+                    flatUIFocusableElementsPoolArray[globalActiveFocusPoolPointerIndexRegister].click();
+                }
+            } 
+            else if (BACK_KEYS.includes(code)) {
+                e.preventDefault();
+                if (globalScopeActiveNavigationWindowRoute === 'modal') {
+                    dismissEpisodesModalWindowBlanketLayer();
+                }
+            }
+        };
+    </script>
+</body>
+</html>
