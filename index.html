@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>.study mod | Ultimate Education App</title>
+    <title>.study mod | Official Education Portal</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -12,23 +12,17 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
 
-    <!-- ADSTERRA ADS INTEGRATION (SocialBar & Popunder scripts) -->
-    <!-- hrry.online SocialBar -->
+    <!-- ADSTERRA ESSENTIAL SCRIPTS -->
     <script src="https://pl30754964.effectivecpmnetwork.com/ec/0f/df/ec0fdf2da0a0cd57b4b8698126b04bdd.js"></script>
-    <!-- hrry.online Popunder -->
     <script src="https://pl30754966.effectivecpmnetwork.com/a9/3a/36/a93a36175e075dae0b3e911e03810599.js"></script>
-    <!-- bseb-registration Popunder -->
-    <script src="https://pl30762486.effectivecpmnetwork.com/58/b1/20/58b12063f5c8d02262ac77f85430f437.js"></script>
-    <!-- bseb-registration SocialBar -->
-    <script src="https://pl30762489.effectivecpmnetwork.com/3c/88/df/3c88df52f97bf8243394ada3c87c5fa9.js"></script>
 
     <style>
         :root {
-            --bg-base: #030305;
-            --glass-bg: rgba(18, 18, 25, 0.85);
-            --glass-border: rgba(255, 255, 255, 0.12);
-            --primary-gradient: linear-gradient(135deg, #7C3AED 0%, #3B82F6 50%, #06B6D4 100%);
-            --accent-glow: rgba(124, 58, 237, 0.5);
+            --bg-base: #050508;
+            --glass-bg: rgba(20, 20, 30, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --primary-gradient: linear-gradient(135deg, #6366F1 0%, #3B82F6 50%, #06B6D4 100%);
+            --accent-glow: rgba(99, 102, 241, 0.4);
             --text-main: #F8FAFC;
             --text-muted: #94A3B8;
         }
@@ -39,67 +33,95 @@
             background-color: var(--bg-base);
             color: var(--text-main);
             min-height: 100vh;
-            padding-bottom: 80px;
+            padding-bottom: 90px;
             background-image: 
-                radial-gradient(circle at 15% 10%, rgba(124, 58, 237, 0.2), transparent 40%),
-                radial-gradient(circle at 85% 90%, rgba(6, 182, 212, 0.18), transparent 40%);
+                radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.15), transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(6, 182, 212, 0.12), transparent 40%);
         }
 
-        /* Navbar */
+        /* Professional Header Navbar */
         .navbar {
-            background: rgba(3, 3, 5, 0.9);
+            background: rgba(5, 5, 8, 0.85);
             backdrop-filter: blur(25px);
             border-bottom: 1px solid var(--glass-border);
-            padding: 16px 5%;
+            padding: 16px 6%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: sticky; top: 0; z-index: 100;
         }
 
-        .brand-logo { font-size: 22px; font-weight: 900; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: flex; align-items: center; gap: 10px; }
+        .brand-logo { 
+            font-size: 22px; font-weight: 900; 
+            background: var(--primary-gradient); 
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+            display: flex; align-items: center; gap: 10px; 
+        }
+
+        .official-badge {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            color: #34D399; font-size: 10px; font-weight: 800;
+            padding: 3px 8px; border-radius: 100px; text-transform: uppercase;
+            letter-spacing: 0.5px; display: inline-flex; align-items: center; gap: 4px;
+        }
         
         .lets-study-btn {
-            background: var(--primary-gradient); color: #fff; padding: 12px 24px; border-radius: 100px;
-            font-size: 14px; font-weight: 800; text-decoration: none; box-shadow: 0 0 20px var(--accent-glow);
+            background: var(--primary-gradient); color: #fff; padding: 12px 22px; border-radius: 100px;
+            font-size: 13px; font-weight: 800; text-decoration: none; box-shadow: 0 0 20px var(--accent-glow);
             transition: 0.3s; display: inline-flex; align-items: center; gap: 8px;
-            animation: buttonGlowPulse 2s infinite ease-in-out;
+            border: 1px solid rgba(255,255,255,0.2);
         }
-        .lets-study-btn:hover { transform: scale(1.06); }
+        .lets-study-btn:hover { transform: scale(1.05); box-shadow: 0 0 25px rgba(6, 182, 212, 0.7); }
 
-        @keyframes buttonGlowPulse {
-            0% { box-shadow: 0 0 12px rgba(124, 58, 237, 0.4); }
-            50% { box-shadow: 0 0 30px rgba(6, 182, 212, 0.8); }
-            100% { box-shadow: 0 0 12px rgba(124, 58, 237, 0.4); }
+        .container { max-width: 900px; margin: 25px auto; padding: 0 20px; }
+        
+        /* Clean Banner Ad Space (Only Top & Bottom) */
+        .top-banner-ad {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 10px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
         }
 
-        .container { max-width: 950px; margin: 25px auto; padding: 0 20px; }
-        .section-title { font-size: 18px; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; color: #fff; }
+        .section-header-row {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;
+        }
+        .section-title { font-size: 18px; font-weight: 800; display: flex; align-items: center; gap: 10px; color: #fff; }
 
         /* Folders Grid */
-        .folders-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-bottom: 25px; }
+        .folders-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 18px; margin-bottom: 30px; }
         .folder-card {
-            background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px;
-            padding: 18px; display: flex; align-items: center; gap: 15px; cursor: pointer; transition: 0.3s;
-            backdrop-filter: blur(20px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 22px;
+            padding: 20px; display: flex; align-items: center; gap: 16px; cursor: pointer; transition: 0.3s;
+            backdrop-filter: blur(20px); box-shadow: 0 10px 30px rgba(0,0,0,0.4);
         }
-        .folder-card:hover { border-color: #3B82F6; transform: translateY(-3px); box-shadow: 0 15px 35px rgba(59,130,246,0.25); }
-        .folder-icon { width: 50px; height: 50px; border-radius: 14px; object-fit: cover; background: rgba(255,255,255,0.05); padding: 8px; border: 1px solid var(--glass-border); flex-shrink: 0; }
+        .folder-card:hover { border-color: #3B82F6; transform: translateY(-4px); box-shadow: 0 15px 35px rgba(59,130,246,0.2); }
+        .folder-icon { width: 52px; height: 52px; border-radius: 14px; object-fit: cover; background: rgba(255,255,255,0.05); padding: 8px; border: 1px solid var(--glass-border); flex-shrink: 0; }
         .folder-info h3 { font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 4px; }
-        .folder-info p { font-size: 12px; color: var(--text-muted); }
+        .folder-info p { font-size: 12px; color: var(--text-muted); font-weight: 500; }
 
         /* CHAPTER LIST VIEW */
         #chapterListView { display: none; }
-        .chapters-grid { display: flex; flex-direction: column; gap: 12px; }
+        .chapters-grid { display: flex; flex-direction: column; gap: 16px; }
+        
+        /* Premium Large Chapter Cards */
         .chapter-item-card {
-            background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 18px;
-            padding: 18px 22px; display: flex; justify-content: space-between; align-items: center;
+            background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px;
+            padding: 22px 24px; display: flex; justify-content: space-between; align-items: center;
             cursor: pointer; transition: 0.3s; backdrop-filter: blur(20px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
-        .chapter-item-card:hover { border-color: #7C3AED; background: rgba(18, 18, 25, 0.95); transform: translateX(4px); }
-        .chapter-name { font-size: 16px; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 12px; }
-        .chapter-name i { color: #38BDF8; font-size: 20px; }
-        .chapter-date-badge { font-size: 12px; font-weight: 700; color: #EC4899; background: rgba(236, 72, 153, 0.1); padding: 5px 12px; border-radius: 100px; border: 1px solid rgba(236, 72, 153, 0.3); }
+        .chapter-item-card:hover { border-color: #6366F1; background: rgba(25, 25, 40, 0.9); transform: translateY(-2px); }
+        .chapter-name { font-size: 17px; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 14px; }
+        .chapter-name i { color: #38BDF8; font-size: 22px; background: rgba(56, 189, 248, 0.1); padding: 10px; border-radius: 12px; }
+        .chapter-date-badge { font-size: 12px; font-weight: 700; color: #EC4899; background: rgba(236, 72, 153, 0.1); padding: 6px 14px; border-radius: 100px; border: 1px solid rgba(236, 72, 153, 0.3); }
 
         /* FULL SCREEN SINGLE CHAPTER VIEW */
         #singleChapterDetailView { display: none; }
@@ -113,28 +135,28 @@
 
         .subject-box {
             background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 24px;
-            padding: 22px; margin-bottom: 20px; backdrop-filter: blur(25px);
+            padding: 26px; margin-bottom: 20px; backdrop-filter: blur(25px);
         }
-        .subject-title-header { font-size: 20px; font-weight: 900; color: #38BDF8; margin-bottom: 18px; display: flex; align-items: center; justify-content: space-between; }
+        .subject-title-header { font-size: 20px; font-weight: 900; color: #38BDF8; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; }
 
-        .mat-category { margin-bottom: 16px; }
+        .mat-category { margin-bottom: 20px; }
         .mat-category:last-child { margin-bottom: 0; }
-        .mat-category-title { font-size: 13px; font-weight: 800; color: var(--text-muted); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.8px; }
+        .mat-category-title { font-size: 13px; font-weight: 800; color: var(--text-muted); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.8px; }
 
         .mat-item-row {
             background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.07);
-            border-radius: 14px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 8px; transition: 0.3s;
+            border-radius: 16px; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 10px; transition: 0.3s;
         }
         .mat-item-row:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.2); }
-        .mat-item-info { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 700; color: #fff; }
-        .mat-item-info i { font-size: 20px; width: 30px; text-align: center; }
+        .mat-item-info { display: flex; align-items: center; gap: 14px; font-size: 15px; font-weight: 700; color: #fff; }
+        .mat-item-info i { font-size: 20px; width: 32px; text-align: center; }
 
-        .item-actions-group { display: flex; align-items: center; gap: 8px; }
+        .item-actions-group { display: flex; align-items: center; gap: 10px; }
 
         .complete-tick-btn {
             background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text-muted);
-            padding: 6px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; cursor: pointer; transition: 0.3s;
+            padding: 7px 14px; border-radius: 100px; font-size: 11px; font-weight: 700; cursor: pointer; transition: 0.3s;
             display: inline-flex; align-items: center; gap: 4px;
         }
         .complete-tick-btn.completed {
@@ -142,18 +164,12 @@
         }
 
         .action-circle-btn {
-            width: 42px; height: 42px; border-radius: 50%; background: var(--primary-gradient);
+            width: 44px; height: 44px; border-radius: 50%; background: var(--primary-gradient);
             border: none; color: #fff; display: flex; align-items: center; justify-content: center;
             cursor: pointer; position: relative; text-decoration: none; box-shadow: 0 0 15px var(--accent-glow);
-            animation: continuousPulse 2s infinite ease-in-out; flex-shrink: 0; transition: 0.3s;
+            flex-shrink: 0; transition: 0.3s;
         }
-        .action-circle-btn:hover { transform: scale(1.1); }
-
-        @keyframes continuousPulse {
-            0% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(124, 58, 237, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0); }
-        }
+        .action-circle-btn:hover { transform: scale(1.08); }
 
         .action-circle-btn.loading i { display: none; }
         .action-circle-btn.loading::after {
@@ -162,23 +178,22 @@
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* About Me Section */
+        /* About Section & Footer */
         .about-me-section {
-            background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px;
-            padding: 24px; margin-top: 30px; backdrop-filter: blur(20px);
+            background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 22px;
+            padding: 24px; margin-top: 35px; backdrop-filter: blur(20px);
         }
-        .about-me-section h3 { font-size: 16px; font-weight: 800; color: #38BDF8; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+        .about-me-section h3 { font-size: 16px; font-weight: 800; color: #38BDF8; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
         .about-lang-box { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 12px; }
         .about-lang-box strong { color: #fff; }
 
-        /* Terms & Conditions Footer */
         .tc-footer {
             text-align: center; font-size: 11px; color: var(--text-muted); margin-top: 25px; padding: 10px; line-height: 1.4;
         }
 
         .toast {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px);
-            background: rgba(15, 15, 20, 0.95); border: 1px solid rgba(124, 58, 237, 0.6);
+            position: fixed; bottom: 70px; left: 50%; transform: translateX(-50%) translateY(100px);
+            background: rgba(15, 15, 20, 0.95); border: 1px solid rgba(99, 102, 241, 0.6);
             padding: 12px 25px; border-radius: 100px; color: #fff; font-size: 13px; font-weight: 700;
             transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 1000; opacity: 0; box-shadow: 0 15px 35px rgba(0,0,0,0.6);
         }
@@ -190,38 +205,55 @@
     <nav class="navbar">
         <div class="brand-logo">
             <i class="fas fa-graduation-cap"></i> .study mod
+            <span class="official-badge"><i class="fas fa-check-circle"></i> Official</span>
         </div>
         <a href="https://pwthor.live/study" target="_blank" class="lets-study-btn" onclick="triggerSmartlinkAd(event)">
-            <i class="fas fa-play-circle"></i> Let's Study <i class="fas fa-external-link-alt" style="font-size:11px;"></i>
+            <i class="fas fa-play-circle"></i> Let's Study <i class="fas fa-external-link-alt" style="font-size:10px;"></i>
         </a>
     </nav>
 
     <div class="container">
         
+        <!-- Clean Top Banner Ad -->
+        <div class="top-banner-ad">
+            <script>
+              atOptions = {
+                'key' : '2706e679d18c6cf8e5bbfa050c2dd6b0',
+                'format' : 'iframe',
+                'height' : 90,
+                'width' : 728,
+                'params' : {}
+              };
+            </script>
+            <script src="https://www.highperformanceformat.com/2706e679d18c6cf8e5bbfa050c2dd6b0/invoke.js"></script>
+        </div>
+
         <!-- VIEW 1: HOME FOLDERS LIST -->
         <div id="homeFoldersView">
-            <div class="section-title">
-                <i class="fas fa-folder-open" style="color: #3B82F6;"></i> Select Folder
+            <div class="section-header-row">
+                <div class="section-title">
+                    <i class="fas fa-folder-open" style="color: #3B82F6;"></i> Select Study Folder
+                </div>
             </div>
+
             <div id="foldersGridContainer" class="folders-grid">
                 <p style="color: var(--text-muted); font-size: 14px;">Loading folders...</p>
             </div>
 
-            <!-- About Me (English & Hindi) -->
+            <!-- About Brand -->
             <div class="about-me-section">
-                <h3><i class="fas fa-user-circle" style="color: #7C3AED;"></i> About Me / मेरे बारे में</h3>
+                <h3><i class="fas fa-user-circle" style="color: #6366F1;"></i> About Creator / डेवलपर के बारे में</h3>
                 <div class="about-lang-box">
-                    <p><strong>English:</strong> Hi, I am Himanshu Raj Yadav (hrry.online). I created this study portal to give students seamless access to high-speed video lectures, notes, audio notes, and practice quizzes in a clean, distraction-free environment. My goal is to make learning smooth and accessible for everyone.</p>
+                    <p><strong>English:</strong> Welcome to the official <strong>.study mod</strong> portal created by Himanshu Raj Yadav (hrry.online). Designed to provide crystal-clear video lectures, verified notes, audio explanations, and high-performance interactive quizzes for students.</p>
                 </div>
                 <div class="about-lang-box" style="margin-bottom: 0;">
-                    <p><strong>हिंदी:</strong> नमस्कार, मैं हिमांशु राज यादव (hrry.online) हूँ। मैंने यह स्टडी पोर्टल इसलिए बनाया है ताकि छात्रों को बिना किसी रुकावट के हाई-स्पीड वीडियो लेक्चर, नोट्स, ऑडियो नोट्स और क्विज़ एक ही जगह पर आसानी से मिल सकें। मेरा उद्देश्य सभी के लिए शिक्षा को आसान और डिजिटल बनाना है।</p>
+                    <p><strong>हिंदी:</strong> यह आधिकारिक <strong>.study mod</strong> पोर्टल हिमांशु राज यादव (hrry.online) द्वारा छात्रों के लिए तैयार किया गया है। यहाँ आपको हाई-स्पीड वीडियो लेक्चर, पीडीएफ नोट्स और क्विज़ बिना किसी रुकावट के मिलते हैं।</p>
                 </div>
             </div>
 
-            <!-- Terms & Conditions Footer -->
             <div class="tc-footer">
                 &copy; 2026 .study mod (Himanshu Raj Yadav | hrry.online). All rights reserved.<br>
-                Terms & Conditions: This application is built for educational support. Unauthorized copying or commercial redistribution of study assets is strictly prohibited. Ads are displayed to support free hosting and maintenance.
+                Official Study Portal. All content is protected under educational distribution terms.
             </div>
         </div>
 
@@ -230,8 +262,8 @@
             <button type="button" class="back-nav-btn" onclick="goBackToFoldersView()">
                 <i class="fas fa-arrow-left"></i> Back to Folders
             </button>
-            <div class="section-title" id="folderTitleHeader">
-                <i class="fas fa-book" style="color: #7C3AED;"></i> Chapters List
+            <div class="section-title" id="folderTitleHeader" style="margin-bottom: 20px;">
+                <i class="fas fa-book" style="color: #6366F1;"></i> Chapters List
             </div>
             <div id="chaptersContainer" class="chapters-grid">
                 <!-- Chapters loaded dynamically -->
@@ -250,6 +282,20 @@
 
     </div>
 
+    <!-- Bottom Sticky Banner Ad (320x50) -->
+    <div style="position: fixed; bottom: 0; left: 0; width: 100%; z-index: 99; display: flex; justify-content: center; background: rgba(5,5,8,0.95); backdrop-filter: blur(15px); border-top: 1px solid var(--glass-border); padding: 4px 0;">
+        <script>
+          atOptions = {
+            'key' : '5d1b58ce7c7fcecadbffb99b6911915c',
+            'format' : 'iframe',
+            'height' : 50,
+            'width' : 320,
+            'params' : {}
+          };
+        </script>
+        <script src="https://www.highperformanceformat.com/5d1b58ce7c7fcecadbffb99b6911915c/invoke.js"></script>
+    </div>
+
     <div class="toast" id="toastMsg">Loading...</div>
 
     <script>
@@ -263,17 +309,22 @@
         let currentActiveFolderName = "";
         let activeSubsRef = null;
         let cachedSubjectsData = {};
+        
+        // Controlled Smartlink Capping to avoid spamming ads
+        let smartlinkClickCount = 0;
+        const maxSmartlinksAllowed = 2; // Maximum 2 to 3 smartlinks limit as requested
 
-        // Adsterra Smart Links Array for high ad revenue triggers
         const smartLinks = [
             "https://www.effectivecpmnetwork.com/w82na4w6sw?key=ac9c026166ef35c5fbf295ca0c7b9baa",
             "https://www.effectivecpmnetwork.com/dimkw686?key=b55d518466e07425a78c874ec184075a"
         ];
 
         function triggerSmartlinkAd(event) {
-            // Randomly open a smartlink ad in a new tab to boost monetization on clicks
-            const randomLink = smartLinks[Math.floor(Math.random() * smartLinks.length)];
-            window.open(randomLink, '_blank');
+            if (smartlinkClickCount < maxSmartlinksAllowed) {
+                smartlinkClickCount++;
+                const randomLink = smartLinks[Math.floor(Math.random() * smartLinks.length)];
+                window.open(randomLink, '_blank');
+            }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -281,7 +332,7 @@
         });
 
         function formatDateDDMMYY(timestamp) {
-            if (!timestamp) return "Recently Added";
+            if (!timestamp) return "Official Update";
             const date = new Date(timestamp);
             const day = String(date.getDate()).padStart(2, '0');
             const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -311,7 +362,6 @@
                     const card = document.createElement('div');
                     card.className = 'folder-card';
                     card.onclick = () => {
-                        // Trigger smart link ad when opening a folder to increase earnings
                         triggerSmartlinkAd();
                         openFolderChapters(folderKey, folder.name);
                     };
@@ -336,7 +386,7 @@
             document.getElementById('singleChapterDetailView').style.display = 'none';
             document.getElementById('chapterListView').style.display = 'block';
 
-            document.getElementById('folderTitleHeader').innerHTML = `<i class="fas fa-book" style="color: #7C3AED;"></i> ${folderName} - Chapters`;
+            document.getElementById('folderTitleHeader').innerHTML = `<i class="fas fa-book" style="color: #6366F1;"></i> ${folderName} - Chapters`;
 
             const chaptersContainer = document.getElementById('chaptersContainer');
             chaptersContainer.innerHTML = '<p style="color: var(--text-muted); font-size: 14px;">Loading chapters...</p>';
@@ -363,7 +413,6 @@
                     const itemCard = document.createElement('div');
                     itemCard.className = 'chapter-item-card';
                     itemCard.onclick = () => {
-                        // Trigger smart link ad when opening a chapter list item
                         triggerSmartlinkAd();
                         openSingleChapterDetail(subKey);
                     };
@@ -381,7 +430,7 @@
             });
         }
 
-        // 3. Open Single Chapter Detail View (Videos, Notes, Audio, Quizzes)
+        // 3. Open Single Chapter Detail View
         function openSingleChapterDetail(subKey) {
             document.getElementById('chapterListView').style.display = 'none';
             document.getElementById('singleChapterDetailView').style.display = 'block';
@@ -447,7 +496,7 @@
                                 <button type="button" class="complete-tick-btn ${isChecked ? 'completed' : ''}" id="${tickId}" onclick="toggleComplete(event, '${tickId}')">
                                     <i class="fas fa-check"></i> ${isChecked ? 'Completed' : 'Mark Done'}
                                 </button>
-                                <button type="button" class="action-circle-btn" onclick="handleActionClick(event, this, '${note.url}')" title="View/Download PDF">
+                                <button type="button" class="action-circle-btn" onclick="handleActionClick(event, this, '${note.url}')" title="View PDF">
                                     <i class="fas fa-eye"></i>
                                 </button>
                             </div>
@@ -554,7 +603,6 @@
             }
         }
 
-        // Action Handler: Triggers Smartlink ad popup and opens the video/PDF/download link safely without refreshing background
         function handleActionClick(event, btnElement, targetUrl) {
             event.stopPropagation();
             if (!targetUrl || targetUrl === '#') {
@@ -562,7 +610,6 @@
                 return;
             }
 
-            // Trigger Smartlink Ad to maximize earnings when opening content/downloads
             triggerSmartlinkAd();
 
             btnElement.classList.add('loading');
