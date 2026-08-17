@@ -1,631 +1,492 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>.study mod | Official Education Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyMods Hrry - Premium Download</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
-
-    <!-- ADSTERRA ESSENTIAL SCRIPTS -->
-    <script src="https://pl30754964.effectivecpmnetwork.com/ec/0f/df/ec0fdf2da0a0cd57b4b8698126b04bdd.js"></script>
-    <script src="https://pl30754966.effectivecpmnetwork.com/a9/3a/36/a93a36175e075dae0b3e911e03810599.js"></script>
-
+    
     <style>
-        :root {
-            --bg-base: #050508;
-            --glass-bg: rgba(20, 20, 30, 0.75);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --primary-gradient: linear-gradient(135deg, #6366F1 0%, #3B82F6 50%, #06B6D4 100%);
-            --accent-glow: rgba(99, 102, 241, 0.4);
-            --text-main: #F8FAFC;
-            --text-muted: #94A3B8;
+        /* ============================
+           BASE STYLES & BACKGROUND
+           ============================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; -webkit-tap-highlight-color: transparent; }
 
         body {
-            background-color: var(--bg-base);
-            color: var(--text-main);
+            background: #0f0c29;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #ffffff;
             min-height: 100vh;
-            padding-bottom: 90px;
-            background-image: 
-                radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.15), transparent 40%),
-                radial-gradient(circle at 90% 90%, rgba(6, 182, 212, 0.12), transparent 40%);
-        }
-
-        /* Professional Header Navbar */
-        .navbar {
-            background: rgba(5, 5, 8, 0.85);
-            backdrop-filter: blur(25px);
-            border-bottom: 1px solid var(--glass-border);
-            padding: 16px 6%;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky; top: 0; z-index: 100;
+            flex-direction: column;
+            overflow-x: hidden;
         }
 
-        .brand-logo { 
-            font-size: 22px; font-weight: 900; 
-            background: var(--primary-gradient); 
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
-            display: flex; align-items: center; gap: 10px; 
-        }
-
-        .official-badge {
-            background: rgba(16, 185, 129, 0.15);
-            border: 1px solid rgba(16, 185, 129, 0.4);
-            color: #34D399; font-size: 10px; font-weight: 800;
-            padding: 3px 8px; border-radius: 100px; text-transform: uppercase;
-            letter-spacing: 0.5px; display: inline-flex; align-items: center; gap: 4px;
-        }
-        
-        .lets-study-btn {
-            background: var(--primary-gradient); color: #fff; padding: 12px 22px; border-radius: 100px;
-            font-size: 13px; font-weight: 800; text-decoration: none; box-shadow: 0 0 20px var(--accent-glow);
-            transition: 0.3s; display: inline-flex; align-items: center; gap: 8px;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-        .lets-study-btn:hover { transform: scale(1.05); box-shadow: 0 0 25px rgba(6, 182, 212, 0.7); }
-
-        .container { max-width: 900px; margin: 25px auto; padding: 0 20px; }
-        
-        /* Clean Banner Ad Space (Only Top & Bottom) */
-        .top-banner-ad {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 10px;
-            margin-bottom: 25px;
+        /* ============================
+           PRELOADER ANIMATION
+           ============================ */
+        #preloader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #0f0c29;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
-            backdrop-filter: blur(20px);
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        .loader-ring {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(255, 255, 255, 0.1);
+            border-top-color: #00f2fe;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        .loading-text {
+            margin-top: 15px;
+            color: #00f2fe;
+            font-weight: 600;
+            letter-spacing: 2px;
+            animation: pulse 1.5s infinite;
         }
 
-        .section-header-row {
-            display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;
+        /* ============================
+           HEADER
+           ============================ */
+        header {
+            padding: 20px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
-        .section-title { font-size: 18px; font-weight: 800; display: flex; align-items: center; gap: 10px; color: #fff; }
-
-        /* Folders Grid */
-        .folders-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 18px; margin-bottom: 30px; }
-        .folder-card {
-            background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 22px;
-            padding: 20px; display: flex; align-items: center; gap: 16px; cursor: pointer; transition: 0.3s;
-            backdrop-filter: blur(20px); box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        header h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
-        .folder-card:hover { border-color: #3B82F6; transform: translateY(-4px); box-shadow: 0 15px 35px rgba(59,130,246,0.2); }
-        .folder-icon { width: 52px; height: 52px; border-radius: 14px; object-fit: cover; background: rgba(255,255,255,0.05); padding: 8px; border: 1px solid var(--glass-border); flex-shrink: 0; }
-        .folder-info h3 { font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 4px; }
-        .folder-info p { font-size: 12px; color: var(--text-muted); font-weight: 500; }
 
-        /* CHAPTER LIST VIEW */
-        #chapterListView { display: none; }
-        .chapters-grid { display: flex; flex-direction: column; gap: 16px; }
-        
-        /* Premium Large Chapter Cards */
-        .chapter-item-card {
-            background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px;
-            padding: 22px 24px; display: flex; justify-content: space-between; align-items: center;
-            cursor: pointer; transition: 0.3s; backdrop-filter: blur(20px);
+        /* ============================
+           MAIN CONTENT & LOGO
+           ============================ */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .logo-box {
+            position: relative;
+            margin-bottom: 25px;
+        }
+        .logo-box img {
+            width: 140px;
+            height: 140px;
+            border-radius: 30px;
+            box-shadow: 0 0 35px rgba(0, 242, 254, 0.5);
+            border: 2px solid #00f2fe;
+            animation: float 3.5s ease-in-out infinite;
+        }
+
+        .app-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .app-desc {
+            color: #b3b3b3;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        /* ============================
+           DOWNLOAD BUTTON & PROGRESS
+           ============================ */
+        .action-area {
+            width: 100%;
+            max-width: 380px;
+            background: rgba(255,255,255,0.03);
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(15px);
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
-        .chapter-item-card:hover { border-color: #6366F1; background: rgba(25, 25, 40, 0.9); transform: translateY(-2px); }
-        .chapter-name { font-size: 17px; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 14px; }
-        .chapter-name i { color: #38BDF8; font-size: 22px; background: rgba(56, 189, 248, 0.1); padding: 10px; border-radius: 12px; }
-        .chapter-date-badge { font-size: 12px; font-weight: 700; color: #EC4899; background: rgba(236, 72, 153, 0.1); padding: 6px 14px; border-radius: 100px; border: 1px solid rgba(236, 72, 153, 0.3); }
 
-        /* FULL SCREEN SINGLE CHAPTER VIEW */
-        #singleChapterDetailView { display: none; }
-        
-        .back-nav-btn {
-            background: rgba(255,255,255,0.06); border: 1px solid var(--glass-border); color: #fff;
-            padding: 10px 18px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer;
-            margin-bottom: 20px; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s;
+        .download-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            padding: 16px 20px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(45deg, #ff0844 0%, #ffb199 100%);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(255, 8, 68, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
-        .back-nav-btn:hover { background: rgba(255,255,255,0.12); }
-
-        .subject-box {
-            background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 24px;
-            padding: 26px; margin-bottom: 20px; backdrop-filter: blur(25px);
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shine 2.5s infinite;
         }
-        .subject-title-header { font-size: 20px; font-weight: 900; color: #38BDF8; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; }
-
-        .mat-category { margin-bottom: 20px; }
-        .mat-category:last-child { margin-bottom: 0; }
-        .mat-category-title { font-size: 13px; font-weight: 800; color: var(--text-muted); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.8px; }
-
-        .mat-item-row {
-            background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.07);
-            border-radius: 16px; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 10px; transition: 0.3s;
+        .download-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 12px 30px rgba(255, 8, 68, 0.6);
         }
-        .mat-item-row:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.2); }
-        .mat-item-info { display: flex; align-items: center; gap: 14px; font-size: 15px; font-weight: 700; color: #fff; }
-        .mat-item-info i { font-size: 20px; width: 32px; text-align: center; }
-
-        .item-actions-group { display: flex; align-items: center; gap: 10px; }
-
-        .complete-tick-btn {
-            background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text-muted);
-            padding: 7px 14px; border-radius: 100px; font-size: 11px; font-weight: 700; cursor: pointer; transition: 0.3s;
-            display: inline-flex; align-items: center; gap: 4px;
-        }
-        .complete-tick-btn.completed {
-            background: rgba(16, 185, 129, 0.2); border-color: #10B981; color: #10B981;
+        .download-btn i {
+            animation: bounce 2s infinite;
         }
 
-        .action-circle-btn {
-            width: 44px; height: 44px; border-radius: 50%; background: var(--primary-gradient);
-            border: none; color: #fff; display: flex; align-items: center; justify-content: center;
-            cursor: pointer; position: relative; text-decoration: none; box-shadow: 0 0 15px var(--accent-glow);
-            flex-shrink: 0; transition: 0.3s;
+        /* Progress Bar UI */
+        .progress-wrapper {
+            display: none;
+            width: 100%;
+            text-align: left;
         }
-        .action-circle-btn:hover { transform: scale(1.08); }
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            color: #00f2fe;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+        .progress-track {
+            width: 100%;
+            height: 12px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #4facfe, #00f2fe);
+            border-radius: 10px;
+            box-shadow: 0 0 15px #00f2fe;
+            transition: width 0.2s linear;
+        }
+        .progress-details {
+            display: flex;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: #aaa;
+            margin-top: 8px;
+        }
 
-        .action-circle-btn.loading i { display: none; }
-        .action-circle-btn.loading::after {
-            content: ''; width: 18px; height: 18px; border: 2px solid #fff; border-top-color: transparent;
-            border-radius: 50%; animation: spin 0.8s linear infinite; position: absolute;
+        /* ============================
+           FEATURES SECTION
+           ============================ */
+        .features {
+            display: flex;
+            gap: 15px;
+            margin-top: 35px;
+            width: 100%;
+            justify-content: center;
         }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .feature-box {
+            flex: 1;
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
+        }
+        .feature-box i {
+            color: #00f2fe;
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+        .feature-box h4 {
+            font-size: 0.85rem;
+            color: #fff;
+        }
 
-        /* About Section & Footer */
-        .about-me-section {
-            background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 22px;
-            padding: 24px; margin-top: 35px; backdrop-filter: blur(20px);
+        /* ============================
+           FOOTER & DEV CREDIT
+           ============================ */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.4);
+            border-top: 1px solid rgba(255,255,255,0.05);
         }
-        .about-me-section h3 { font-size: 16px; font-weight: 800; color: #38BDF8; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-        .about-lang-box { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 12px; }
-        .about-lang-box strong { color: #fff; }
+        .developer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            color: #bbb;
+        }
+        .developer span {
+            color: #00f2fe;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .developer a {
+            color: #fff;
+            font-size: 1.5rem;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        .developer a:hover {
+            color: #00f2fe;
+            transform: scale(1.2) rotate(360deg);
+        }
 
-        .tc-footer {
-            text-align: center; font-size: 11px; color: var(--text-muted); margin-top: 25px; padding: 10px; line-height: 1.4;
-        }
+        /* ============================
+           KEYFRAME ANIMATIONS
+           ============================ */
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        @keyframes shine { 100% { left: 100%; } }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
 
-        .toast {
-            position: fixed; bottom: 70px; left: 50%; transform: translateX(-50%) translateY(100px);
-            background: rgba(15, 15, 20, 0.95); border: 1px solid rgba(99, 102, 241, 0.6);
-            padding: 12px 25px; border-radius: 100px; color: #fff; font-size: 13px; font-weight: 700;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 1000; opacity: 0; box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+        /* Mobile Optimization */
+        @media (max-width: 480px) {
+            .app-title { font-size: 1.8rem; }
+            .logo-box img { width: 120px; height: 120px; }
+            .features { flex-direction: column; }
         }
-        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
     </style>
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="brand-logo">
-            <i class="fas fa-graduation-cap"></i> .study mod
-            <span class="official-badge"><i class="fas fa-check-circle"></i> Official</span>
-        </div>
-        <a href="https://pwthor.live/study/batches/6958da951f4f3345aa9cbc35" target="_blank" class="lets-study-btn" onclick="triggerSmartlinkAd(event)">
-            <i class="fas fa-play-circle"></i> Let's Study <i class="fas fa-external-link-alt" style="font-size:10px;"></i>
-        </a>
-    </nav>
-
-    <div class="container">
-        
-        <!-- Clean Top Banner Ad -->
-        <div class="top-banner-ad">
-            <script>
-              atOptions = {
-                'key' : '2706e679d18c6cf8e5bbfa050c2dd6b0',
-                'format' : 'iframe',
-                'height' : 90,
-                'width' : 728,
-                'params' : {}
-              };
-            </script>
-            <script src="https://www.highperformanceformat.com/2706e679d18c6cf8e5bbfa050c2dd6b0/invoke.js"></script>
-        </div>
-
-        <!-- VIEW 1: HOME FOLDERS LIST -->
-        <div id="homeFoldersView">
-            <div class="section-header-row">
-                <div class="section-title">
-                    <i class="fas fa-folder-open" style="color: #3B82F6;"></i> Select Study Folder
-                </div>
-            </div>
-
-            <div id="foldersGridContainer" class="folders-grid">
-                <p style="color: var(--text-muted); font-size: 14px;">Loading folders...</p>
-            </div>
-
-            <!-- About Brand -->
-            <div class="about-me-section">
-                <h3><i class="fas fa-user-circle" style="color: #6366F1;"></i> About Creator / डेवलपर के बारे में</h3>
-                <div class="about-lang-box">
-                    <p><strong>English:</strong> Welcome to the official <strong>.study mod</strong> portal created by Himanshu Raj Yadav (hrry.online). Designed to provide crystal-clear video lectures, verified notes, audio explanations, and high-performance interactive quizzes for students.</p>
-                </div>
-                <div class="about-lang-box" style="margin-bottom: 0;">
-                    <p><strong>हिंदी:</strong> यह आधिकारिक <strong>.study mod</strong> पोर्टल हिमांशु राज यादव (hrry.online) द्वारा छात्रों के लिए तैयार किया गया है। यहाँ आपको हाई-स्पीड वीडियो लेक्चर, पीडीएफ नोट्स और क्विज़ बिना किसी रुकावट के मिलते हैं।</p>
-                </div>
-            </div>
-
-            <div class="tc-footer">
-                &copy; 2026 .study mod (Himanshu Raj Yadav | hrry.online). All rights reserved.<br>
-                Official Study Portal. All content is protected under educational distribution terms.
-            </div>
-        </div>
-
-        <!-- VIEW 2: CHAPTER LIST INSIDE FOLDER -->
-        <div id="chapterListView">
-            <button type="button" class="back-nav-btn" onclick="goBackToFoldersView()">
-                <i class="fas fa-arrow-left"></i> Back to Folders
-            </button>
-            <div class="section-title" id="folderTitleHeader" style="margin-bottom: 20px;">
-                <i class="fas fa-book" style="color: #6366F1;"></i> Chapters List
-            </div>
-            <div id="chaptersContainer" class="chapters-grid">
-                <!-- Chapters loaded dynamically -->
-            </div>
-        </div>
-
-        <!-- VIEW 3: FULL SCREEN SINGLE CHAPTER DETAILS -->
-        <div id="singleChapterDetailView">
-            <button type="button" class="back-nav-btn" onclick="goBackToChaptersView()">
-                <i class="fas fa-arrow-left"></i> Back to Chapters
-            </button>
-            <div id="singleChapterContentContainer">
-                <!-- Chapter files loaded here -->
-            </div>
-        </div>
-
+    <!-- 1. PRELOADER -->
+    <div id="preloader">
+        <div class="loader-ring"></div>
+        <div class="loading-text">INITIALIZING...</div>
     </div>
 
-    <!-- Bottom Sticky Banner Ad (320x50) -->
-    <div style="position: fixed; bottom: 0; left: 0; width: 100%; z-index: 99; display: flex; justify-content: center; background: rgba(5,5,8,0.95); backdrop-filter: blur(15px); border-top: 1px solid var(--glass-border); padding: 4px 0;">
-        <script>
-          atOptions = {
-            'key' : '5d1b58ce7c7fcecadbffb99b6911915c',
-            'format' : 'iframe',
-            'height' : 50,
-            'width' : 320,
-            'params' : {}
-          };
-        </script>
-        <script src="https://www.highperformanceformat.com/5d1b58ce7c7fcecadbffb99b6911915c/invoke.js"></script>
-    </div>
+    <!-- 2. HEADER -->
+    <header>
+        <h1><i class="fas fa-layer-group"></i> StudyMods</h1>
+    </header>
 
-    <div class="toast" id="toastMsg">Loading...</div>
+    <!-- 3. MAIN CONTENT -->
+    <main>
+        <!-- Floating Logo -->
+        <div class="logo-box">
+            <a href="https://ibb.co/rG4W3YwQ" target="_blank">
+                <img src="https://i.ibb.co/hRDqcbmg/file-0000000035a48211842ec377eca6f642.png" alt="StudyMods Hrry Logo">
+            </a>
+        </div>
 
+        <h2 class="app-title">StudyMods Hrry</h2>
+        <p class="app-desc">Get the ultimate Study Mods HRRY experience. Direct high-speed download for the latest version, packed with 20+ educational apps, new batches, study resources and learning content — all designed for a smarter learning journey.</p>
+
+        <!-- Download & Progress Area -->
+        <div class="action-area">
+            
+            <!-- Download Button -->
+            <button class="download-btn" id="start-btn">
+                <i class="fas fa-download"></i> DOWNLOAD APP
+            </button>
+
+            <!-- Real-Time Progress Bar -->
+            <div class="progress-wrapper" id="progress-ui">
+                <div class="progress-header">
+                    <span id="status-text">Connecting...</span>
+                    <span id="percent-text">0%</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="progress-details" id="size-text">0.0 MB / 0.0 MB</div>
+            </div>
+
+        </div>
+
+        <!-- Features -->
+        <div class="features">
+            <div class="feature-box">
+                <i class="fas fa-rocket"></i>
+                <h4>Fast Server</h4>
+            </div>
+            <div class="feature-box">
+                <i class="fas fa-shield-check"></i>
+                <h4>100% Safe</h4>
+            </div>
+            <div class="feature-box">
+                <i class="fas fa-sync-alt"></i>
+                <h4>Auto Update</h4>
+            </div>
+        </div>
+    </main>
+
+    <!-- 4. FOOTER -->
+    <footer>
+        <div class="developer">
+            Developed with <i class="fas fa-heart" style="color: #ff0844;"></i> by <span>Himanshu Raj Yadav</span>
+            <a href="https://github.com/hkb4390-ops" target="_blank" title="Follow on GitHub">
+                <i class="fab fa-github"></i>
+            </a>
+        </div>
+    </footer>
+
+    <!-- 5. JAVASCRIPT LOGIC -->
     <script>
-        const firebaseConfig = {
-            databaseURL: "https://hyuuu-732f9-default-rtdb.firebaseio.com/"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-
-        let currentActiveFolderKey = null;
-        let currentActiveFolderName = "";
-        let activeSubsRef = null;
-        let cachedSubjectsData = {};
-        
-        // Controlled Smartlink Capping to avoid spamming ads
-        let smartlinkClickCount = 0;
-        const maxSmartlinksAllowed = 2; // Maximum 2 to 3 smartlinks limit as requested
-
-        const smartLinks = [
-            "https://www.effectivecpmnetwork.com/w82na4w6sw?key=ac9c026166ef35c5fbf295ca0c7b9baa",
-            "https://www.effectivecpmnetwork.com/dimkw686?key=b55d518466e07425a78c874ec184075a"
-        ];
-
-        function triggerSmartlinkAd(event) {
-            if (smartlinkClickCount < maxSmartlinksAllowed) {
-                smartlinkClickCount++;
-                const randomLink = smartLinks[Math.floor(Math.random() * smartLinks.length)];
-                window.open(randomLink, '_blank');
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            fetchUserFolders();
+        // --- Preloader Logic ---
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const preloader = document.getElementById('preloader');
+                preloader.style.opacity = '0';
+                setTimeout(() => preloader.style.display = 'none', 500);
+            }, 1000); // 1 sec delay to show the premium loader
         });
 
-        function formatDateDDMMYY(timestamp) {
-            if (!timestamp) return "Official Update";
-            const date = new Date(timestamp);
-            const day = String(date.getDate()).padStart(2, '0');
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const year = date.getFullYear();
-            const timeStr = date.toLocaleTimeString('hi-IN', { hour: '2-digit', minute: '2-digit' });
-            return `${day}/${month}/${year} | ${timeStr}`;
-        }
+        // --- Real Download Progress Logic ---
+        const startBtn = document.getElementById('start-btn');
+        const progressUi = document.getElementById('progress-ui');
+        const progressFill = document.getElementById('progress-fill');
+        const statusText = document.getElementById('status-text');
+        const percentText = document.getElementById('percent-text');
+        const sizeText = document.getElementById('size-text');
 
-        // 1. Fetch Folders
-        function fetchUserFolders() {
-            const grid = document.getElementById('foldersGridContainer');
-            grid.innerHTML = '<p style="color: var(--text-muted); font-size: 14px;">Loading folders...</p>';
+        // Your Direct App Download Link
+        const apkUrl = "https://github.com/hkb4390-ops/Studymodshrry/releases/download/v1.0.0/Study.Mods.Hrry.apk";
 
-            db.ref('study_app/folders').on('value', (snapshot) => {
-                grid.innerHTML = '';
-                const folders = snapshot.val();
+        startBtn.addEventListener('click', async () => {
+            // UI Switch
+            startBtn.style.display = 'none';
+            progressUi.style.display = 'block';
+            statusText.innerText = "Fetching File...";
 
-                if (!folders) {
-                    grid.innerHTML = '<p style="color: var(--text-muted); font-size: 14px;">No folders found in Firebase.</p>';
+            try {
+                // Fetch Request
+                const response = await fetch(apkUrl);
+                
+                if (!response.ok) throw new Error("Network response was not ok");
+
+                // Get File Size
+                const contentLength = response.headers.get('content-length');
+                
+                // GitHub Sometimes blocks 'content-length' via CORS. If so, fallback.
+                if (!contentLength) {
+                    fallbackNativeDownload();
                     return;
                 }
 
-                const folderKeys = Object.keys(folders).reverse();
+                const totalBytes = parseInt(contentLength, 10);
+                let loadedBytes = 0;
+                
+                // Read Stream for Real Progress
+                const reader = response.body.getReader();
+                const chunks = [];
 
-                folderKeys.forEach(folderKey => {
-                    const folder = folders[folderKey];
-                    const card = document.createElement('div');
-                    card.className = 'folder-card';
-                    card.onclick = () => {
-                        triggerSmartlinkAd();
-                        openFolderChapters(folderKey, folder.name);
-                    };
-                    card.innerHTML = `
-                        <img src="${folder.icon || 'https://cdn-icons-png.flaticon.com/512/3767/3767084.png'}" class="folder-icon" alt="Icon">
-                        <div class="folder-info">
-                            <h3>${folder.name}</h3>
-                            <p>Tap to view chapters</p>
-                        </div>
-                    `;
-                    grid.appendChild(card);
-                });
-            });
-        }
+                while (true) {
+                    const { done, value } = await reader.read();
+                    
+                    if (done) {
+                        break;
+                    }
+                    
+                    chunks.push(value);
+                    loadedBytes += value.length;
 
-        // 2. Open Folder Chapters
-        function openFolderChapters(folderKey, folderName) {
-            currentActiveFolderKey = folderKey;
-            currentActiveFolderName = folderName;
+                    // Calculate Math
+                    let percent = Math.floor((loadedBytes / totalBytes) * 100);
+                    let loadedMB = (loadedBytes / (1024 * 1024)).toFixed(2);
+                    let totalMB = (totalBytes / (1024 * 1024)).toFixed(2);
 
-            document.getElementById('homeFoldersView').style.display = 'none';
-            document.getElementById('singleChapterDetailView').style.display = 'none';
-            document.getElementById('chapterListView').style.display = 'block';
-
-            document.getElementById('folderTitleHeader').innerHTML = `<i class="fas fa-book" style="color: #6366F1;"></i> ${folderName} - Chapters`;
-
-            const chaptersContainer = document.getElementById('chaptersContainer');
-            chaptersContainer.innerHTML = '<p style="color: var(--text-muted); font-size: 14px;">Loading chapters...</p>';
-
-            if (activeSubsRef) activeSubsRef.off();
-
-            activeSubsRef = db.ref(`study_app/subjects/${folderKey}`);
-            activeSubsRef.on('value', (snapshot) => {
-                chaptersContainer.innerHTML = '';
-                const subjects = snapshot.val();
-                cachedSubjectsData = subjects || {};
-
-                if (!subjects) {
-                    chaptersContainer.innerHTML = '<p style="color: var(--text-muted); font-size: 14px;">No chapters uploaded in this folder yet.</p>';
-                    return;
+                    // Update UI
+                    progressFill.style.width = percent + '%';
+                    percentText.innerText = percent + '%';
+                    sizeText.innerText = `${loadedMB} MB / ${totalMB} MB`;
+                    statusText.innerText = "Downloading...";
                 }
 
-                const subKeys = Object.keys(subjects).reverse();
+                // File Download Complete - Create Blob & Save to Device
+                statusText.innerText = "Processing File...";
+                const blob = new Blob(chunks, { type: 'application/vnd.android.package-archive' });
+                const downloadUrl = window.URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.href = downloadUrl;
+                a.download = "StudyMods_Hrry_v1.0.0.apk";
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(downloadUrl);
 
-                subKeys.forEach(subKey => {
-                    const sub = subjects[subKey];
-                    const formattedDateTime = formatDateDDMMYY(sub.updatedAt);
+                // Success UI
+                statusText.innerText = "Download Complete! \u2714\ufe0f";
+                progressFill.style.background = "#00ff87"; // Green success color
+                progressFill.style.boxShadow = "0 0 15px #00ff87";
+                
+                // Reset after 3 seconds
+                setTimeout(resetUI, 3000);
 
-                    const itemCard = document.createElement('div');
-                    itemCard.className = 'chapter-item-card';
-                    itemCard.onclick = () => {
-                        triggerSmartlinkAd();
-                        openSingleChapterDetail(subKey);
-                    };
-                    itemCard.innerHTML = `
-                        <div class="chapter-name">
-                            <i class="fas fa-bookmark"></i>
-                            <span>${sub.subjectName}</span>
-                        </div>
-                        <div class="chapter-date-badge">
-                            <i class="fas fa-clock"></i> ${formattedDateTime}
-                        </div>
-                    `;
-                    chaptersContainer.appendChild(itemCard);
-                });
-            });
-        }
-
-        // 3. Open Single Chapter Detail View
-        function openSingleChapterDetail(subKey) {
-            document.getElementById('chapterListView').style.display = 'none';
-            document.getElementById('singleChapterDetailView').style.display = 'block';
-
-            const sub = cachedSubjectsData[subKey];
-            const container = document.getElementById('singleChapterContentContainer');
-            if (!sub) return;
-
-            const subDate = formatDateDDMMYY(sub.updatedAt);
-            let html = `
-                <div class="subject-box">
-                    <div class="subject-title-header">
-                        <span><i class="fas fa-bookmark"></i> ${sub.subjectName}</span>
-                        <span style="font-size: 12px; color: #EC4899; font-weight: 700; background: rgba(236,72,153,0.1); padding: 4px 10px; border-radius: 100px; border:1px solid rgba(236,72,153,0.3);">${subDate}</span>
-                    </div>
-            `;
-
-            // Videos
-            if (sub.videos && sub.videos.length > 0) {
-                html += `
-                    <div class="mat-category">
-                        <div class="mat-category-title"><i class="fas fa-video" style="color: #3B82F6;"></i> Video Lectures</div>
-                `;
-                sub.videos.forEach((vid, idx) => {
-                    const tickId = `tick_v_${subKey}_${idx}`;
-                    const isChecked = localStorage.getItem(tickId) === 'true';
-                    html += `
-                        <div class="mat-item-row">
-                            <div class="mat-item-info">
-                                <i class="fas fa-play-circle" style="color: #3B82F6;"></i>
-                                <span>${vid.part}</span>
-                            </div>
-                            <div class="item-actions-group">
-                                <button type="button" class="complete-tick-btn ${isChecked ? 'completed' : ''}" id="${tickId}" onclick="toggleComplete(event, '${tickId}')">
-                                    <i class="fas fa-check"></i> ${isChecked ? 'Completed' : 'Mark Done'}
-                                </button>
-                                <button type="button" class="action-circle-btn" onclick="handleActionClick(event, this, '${vid.url}')" title="Watch Video">
-                                    <i class="fas fa-play"></i>
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                });
-                html += `</div>`;
+            } catch (error) {
+                console.error("Fetch API Stream Error:", error);
+                // If anything fails (CORS, AdBlocker, etc), DO NOT break the page. 
+                // Just use standard browser download.
+                fallbackNativeDownload();
             }
+        });
 
-            // Notes PDF
-            if (sub.notes && sub.notes.length > 0) {
-                html += `
-                    <div class="mat-category">
-                        <div class="mat-category-title"><i class="fas fa-file-pdf" style="color: #10B981;"></i> Study Notes PDF</div>
-                `;
-                sub.notes.forEach((note, idx) => {
-                    const tickId = `tick_n_${subKey}_${idx}`;
-                    const isChecked = localStorage.getItem(tickId) === 'true';
-                    html += `
-                        <div class="mat-item-row">
-                            <div class="mat-item-info">
-                                <i class="fas fa-file-pdf" style="color: #10B981;"></i>
-                                <span>${note.title}</span>
-                            </div>
-                            <div class="item-actions-group">
-                                <button type="button" class="complete-tick-btn ${isChecked ? 'completed' : ''}" id="${tickId}" onclick="toggleComplete(event, '${tickId}')">
-                                    <i class="fas fa-check"></i> ${isChecked ? 'Completed' : 'Mark Done'}
-                                </button>
-                                <button type="button" class="action-circle-btn" onclick="handleActionClick(event, this, '${note.url}')" title="View PDF">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                });
-                html += `</div>`;
-            }
-
-            // Voice Notes
-            if (sub.voiceNotes && sub.voiceNotes.length > 0) {
-                html += `
-                    <div class="mat-category">
-                        <div class="mat-category-title"><i class="fas fa-microphone" style="color: #F59E0B;"></i> Voice Notes</div>
-                `;
-                sub.voiceNotes.forEach((vn, idx) => {
-                    const tickId = `tick_vn_${subKey}_${idx}`;
-                    const isChecked = localStorage.getItem(tickId) === 'true';
-                    html += `
-                        <div class="mat-item-row">
-                            <div class="mat-item-info">
-                                <i class="fas fa-volume-up" style="color: #F59E0B;"></i>
-                                <span>${vn.title}</span>
-                            </div>
-                            <div class="item-actions-group">
-                                <button type="button" class="complete-tick-btn ${isChecked ? 'completed' : ''}" id="${tickId}" onclick="toggleComplete(event, '${tickId}')">
-                                    <i class="fas fa-check"></i> ${isChecked ? 'Completed' : 'Mark Done'}
-                                </button>
-                                <button type="button" class="action-circle-btn" onclick="handleActionClick(event, this, '${vn.url}')" title="Listen Audio">
-                                    <i class="fas fa-headphones"></i>
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                });
-                html += `</div>`;
-            }
-
-            // MCQ Quizzes
-            if (sub.mcqs && sub.mcqs.length > 0) {
-                html += `
-                    <div class="mat-category">
-                        <div class="mat-category-title"><i class="fas fa-question-circle" style="color: #EC4899;"></i> MCQ Quizzes</div>
-                `;
-                sub.mcqs.forEach((mcq, idx) => {
-                    const tickId = `tick_m_${subKey}_${idx}`;
-                    const isChecked = localStorage.getItem(tickId) === 'true';
-                    html += `
-                        <div class="mat-item-row">
-                            <div class="mat-item-info">
-                                <i class="fas fa-tasks" style="color: #EC4899;"></i>
-                                <span>${mcq.title} <span style="font-size:11px; color:var(--text-muted); font-weight:400;">(${mcq.totalQuestions} Qs)</span></span>
-                            </div>
-                            <div class="item-actions-group">
-                                <button type="button" class="complete-tick-btn ${isChecked ? 'completed' : ''}" id="${tickId}" onclick="toggleComplete(event, '${tickId}')">
-                                    <i class="fas fa-check"></i> ${isChecked ? 'Completed' : 'Mark Done'}
-                                </button>
-                                <button type="button" class="action-circle-btn" onclick="handleActionClick(event, this, '${mcq.url}')" title="Start Quiz">
-                                    <i class="fas fa-arrow-right"></i>
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                });
-                html += `</div>`;
-            }
-
-            html += `</div>`;
-            container.innerHTML = html;
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function goBackToFoldersView() {
-            if (activeSubsRef) {
-                activeSubsRef.off();
-                activeSubsRef = null;
-            }
-            document.getElementById('chapterListView').style.display = 'none';
-            document.getElementById('singleChapterDetailView').style.display = 'none';
-            document.getElementById('homeFoldersView').style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function goBackToChaptersView() {
-            document.getElementById('singleChapterDetailView').style.display = 'none';
-            document.getElementById('chapterListView').style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function toggleComplete(event, tickId) {
-            event.stopPropagation();
-            const btn = document.getElementById(tickId);
-            const isCompleted = btn.classList.contains('completed');
-            if (isCompleted) {
-                btn.classList.remove('completed');
-                btn.innerHTML = `<i class="fas fa-check"></i> Mark Done`;
-                localStorage.setItem(tickId, 'false');
-                showToast("Marked as incomplete");
-            } else {
-                btn.classList.add('completed');
-                btn.innerHTML = `<i class="fas fa-check"></i> Completed`;
-                localStorage.setItem(tickId, 'true');
-                showToast("Marked as completed ✔");
-            }
-        }
-
-        function handleActionClick(event, btnElement, targetUrl) {
-            event.stopPropagation();
-            if (!targetUrl || targetUrl === '#') {
-                showToast("Link is unavailable!");
-                return;
-            }
-
-            triggerSmartlinkAd();
-
-            btnElement.classList.add('loading');
-            showToast("Opening material...");
-
+        // Fail-Safe Function
+        function fallbackNativeDownload() {
+            statusText.innerText = "Downloading via Browser...";
+            percentText.innerText = "";
+            sizeText.innerText = "Check your notification panel";
+            
+            // Fake animation to keep UI looking good
+            progressFill.style.transition = "width 2s ease-in-out";
+            progressFill.style.width = "100%";
+            
             setTimeout(() => {
-                window.open(targetUrl, '_blank');
-                btnElement.classList.remove('loading');
-            }, 600);
+                window.location.href = apkUrl; // Triggers standard download
+            }, 500);
+
+            setTimeout(resetUI, 5000);
         }
 
-        function showToast(msg) {
-            const toast = document.getElementById('toastMsg');
-            toast.innerText = msg;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2500);
+        function resetUI() {
+            progressUi.style.display = 'none';
+            startBtn.style.display = 'flex';
+            progressFill.style.width = '0%';
+            percentText.innerText = '0%';
+            sizeText.innerText = '0.0 MB / 0.0 MB';
+            progressFill.style.background = "linear-gradient(90deg, #4facfe, #00f2fe)";
+            progressFill.style.boxShadow = "0 0 15px #00f2fe";
         }
     </script>
 </body>
